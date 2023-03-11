@@ -1,0 +1,26 @@
+{
+  "order": 0,
+  "index_patterns": [
+    "metadata-*"
+  ],
+  "settings": {
+    "index": {
+      "lifecycle": {
+        "name": "metadata-lifecycle-policy",
+        "rollover_alias": "metadata"
+      }
+    }
+  },
+  "mappings": {
+    "dynamic_templates": [],
+    "properties": {
+      "@timestamp": {
+        "type": "date"
+      },
+      "captureTime": {
+        "type": "date",
+        "format": "epoch_second"
+      }
+    }
+  }
+}
