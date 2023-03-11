@@ -6,6 +6,19 @@ import json
 import xxhash
 from contextlib import suppress
 
+# Extract and Create IPv6 NDJson Object
+def dissectIPv6():
+	ip=layers['ipv6']
+	ndjson['ip6Version'] = ip['ipv6.version']
+	#ndjson['ip6TClass'] = ip['ipv6.tclass']
+	ndjson['ip6Flow'] = ip['ipv6.flow']
+	ndjson['ip6PLen'] = ip['ipv6.plen']
+	ndjson['ip6Next'] = ip['ipv6.nxt']
+	ndjson['ip6HLim'] = ip['ipv6.hlim']
+	ndjson['ip6Src'] = ip['ipv6.src']
+	ndjson['ip6Dst'] = ip['ipv6.dst']
+	ndjson['ip6Addr'] = [ip['ipv6.src'], ip['ipv6.dst']]
+
 # Extract and Create IPv4 NDJson Object
 def dissectIPv4():
 	ip=layers['ip']
