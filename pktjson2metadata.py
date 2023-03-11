@@ -83,7 +83,7 @@ def processPackets(packets):
 		ndjson['packetID'] = packetID
 		ndjson['captureTime'] = frame['frame.time_epoch']
 		#ndjson['frameNumber'] = frame['frame.number']
-		#ndjson['frameCapLen'] = frame['frame.cap_len']
+		ndjson['frameCapLen'] = frame['frame.cap_len']
 		ndjson['frameProtocols'] = frame['frame.protocols']
 		if int(frame['frame.encap_type']) == 1:
 			dissectEthernet()
