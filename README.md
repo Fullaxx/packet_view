@@ -25,5 +25,6 @@ fullaxx/packet_view
 
 ## Upload PCAP
 ```
+docker exec -it packet_view cat /data/passwords | grep 'PASSWORD elastic' | awk '{print $4}'
 PASS=<ELASTIC_PASSWORD> ./upload.sh test.pcap
 ```
