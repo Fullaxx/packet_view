@@ -10,7 +10,7 @@ from contextlib import suppress
 def dissectIPv6():
 	ip=layers['ipv6']
 	ndjson['ip6Version'] = ip['ipv6.version']
-	#ndjson['ip6TClass'] = ip['ipv6.tclass']
+#	ndjson['ip6TClass'] = ip['ipv6.tclass']
 	ndjson['ip6Flow'] = ip['ipv6.flow']
 	ndjson['ip6PLen'] = ip['ipv6.plen']
 	ndjson['ip6Next'] = ip['ipv6.nxt']
@@ -24,7 +24,7 @@ def dissectIPv4():
 	ip=layers['ip']
 	ndjson['ip4Version'] = ip['ip.version']
 	ndjson['ip4HeaderLenBytes'] = ip['ip.hdr_len']
-	#ndjson[''] = ip['ip.dsfield']
+#	ndjson[''] = ip['ip.dsfield']
 	ndjson['ip4LenBytes'] = ip['ip.len']
 	ndjson['ip4ID'] = ip['ip.id']
 	ndjson['ip4Flags'] = ip['ip.flags']
@@ -58,7 +58,7 @@ def dissectEthernet():
 	if(ethLen): dissectLLC()
 	elif(ethType):
 		ethTypeValue = int(ethType, 16)
-		# WTF why is ethType a long in v3.4.16?? I should not have to do this
+#		WTF why is ethType a long in v3.4.16?? I should not have to do this
 		ndjson['ethType'] = '0x'+'{:04x}'.format(ethTypeValue)
 		if ethTypeValue == 0x0800: dissectIPv4()
 		if ethTypeValue == 0x0806: dissectARP()
@@ -73,7 +73,7 @@ def processPackets(packets):
 		layers=source['layers']
 		frame=layers['frame']
 
-		# Create a unique packetID
+#		Create a unique packetID
 		x = xxhash.xxh128()
 		x.update(json.dumps(packet))
 		packetID = x.hexdigest()
@@ -82,7 +82,7 @@ def processPackets(packets):
 		ndjson = {}
 		ndjson['packetID'] = packetID
 		ndjson['captureTime'] = frame['frame.time_epoch']
-		#ndjson['frameNumber'] = frame['frame.number']
+#		ndjson['frameNumber'] = frame['frame.number']
 		ndjson['frameCapLen'] = frame['frame.cap_len']
 		ndjson['frameProtocols'] = frame['frame.protocols']
 		if int(frame['frame.encap_type']) == 1:
