@@ -1,7 +1,7 @@
 {
-  "aliases": {
-    "metadata": {
-      "is_write_index": true
-    }
-  }
+	"aliases": {
+		"metadata": {
+			"is_write_index": true
+		}
+	}
 }

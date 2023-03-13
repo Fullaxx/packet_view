@@ -1,6 +1,6 @@
 {
-  "attributes": {
-    "title": "metadata",
-    "timeFieldName": "captureTime"
-  }
+	"attributes": {
+		"title": "metadata",
+		"timeFieldName": "captureTime"
+	}
 }
