@@ -6,6 +6,40 @@ import json
 import xxhash
 from contextlib import suppress
 
+def dissectDNS():
+	dns=layers['dns']
+	ndjson['dnsID'] = dns['dns.id']
+	dnsQueryCount = int(dns['dns.count.queries'])
+#	There should only be one question
+#	If there are multiple questions this code will open a wormhole to the beginning of time ...
+#	or just ignore all questions except one (the last one?)
+	if (dnsQueryCount > 0):
+		ndjson['dnsQueryCount'] = dnsQueryCount
+		queries = dns['Queries']
+		for k,d in queries.items():
+			qryname = d.get('dns.qry.name')
+			ndjson['dnsQueryName'] = qryname
+
+	dnsAnswerCount = int(dns['dns.count.answers'])
+	if (dnsAnswerCount > 0):
+		resplist = []
+		ndjson['dnsAnswerCount'] = dnsAnswerCount
+		answers = dns['Answers']
+		for k,d in answers.items():
+			resplist.append(k)
+		ndjson['dnsResponses'] = resplist
+
+#		This would walk all the answer blocks and pull elements
+#		for k,d in answers.items():
+#			ans = None
+#			respname = d.get('dns.resp.name')
+#			resptype = d.get('dns.resp.type')
+#			if   (resptype ==  '1'): ans = d.get('dns.a')
+#			elif (resptype ==  '5'): ans = d.get('dns.cname')
+#			elif (resptype == '28'): ans = d.get('dns.aaaa')
+#			print('respname: ' + respname + ': ' + resptype)
+#			if(ans is not None): print('ANSWER: ' + ans)
+
 # Extract and Create UDP NDJson Object
 def dissectUDP():
 	udp=layers['udp']
@@ -13,20 +47,6 @@ def dissectUDP():
 	ndjson['udpDstPort'] = udp['udp.dstport']
 	ndjson['udpPort'] = [udp['udp.srcport'], udp['udp.dstport']]
 	ndjson['udpLenBytes'] = udp['udp.length']
-
-# Extract and Create TCP NDJson Object
-def dissectTCP():
-	tcp=layers['tcp']
-	tcpflagstree=tcp['tcp.flags_tree']
-	ndjson['tcpSrcPort'] = tcp['tcp.srcport']
-	ndjson['tcpDstPort'] = tcp['tcp.dstport']
-	ndjson['tcpPort'] = [tcp['tcp.srcport'], tcp['tcp.dstport']]
-	ndjson['tcpLenBytes'] = tcp['tcp.len']
-	ndjson['tcpFlagsACKBit'] = tcpflagstree['tcp.flags.ack']
-	ndjson['tcpFlagsPSHBit'] = tcpflagstree['tcp.flags.push']
-	ndjson['tcpFlagsRSTBit'] = tcpflagstree['tcp.flags.reset']
-	ndjson['tcpFlagsSYNBit'] = tcpflagstree['tcp.flags.syn']
-	ndjson['tcpFlagsFINBit'] = tcpflagstree['tcp.flags.fin']
 
 # Extract and Create IPv6 NDJson Object
 def dissectIPv6():
@@ -37,10 +57,7 @@ def dissectIPv6():
 	ndjson['ip6Dst'] = ip['ipv6.dst']
 	ndjson['ip6Addr'] = [ip['ipv6.src'], ip['ipv6.dst']]
 	proto = int(ip['ipv6.nxt'])
-	if  (proto ==   6): dissectTCP()
-	elif(proto ==  17): dissectUDP()
-#	elif(proto == 132): dissectSCTP()
-#	elif(proto == 136): dissectUDPLite()
+	if(proto == 17): dissectUDP()
 
 # Extract and Create IPv4 NDJson Object
 def dissectIPv4():
@@ -51,11 +68,7 @@ def dissectIPv4():
 	ndjson['ip4Dst'] = ip['ip.dst']
 	ndjson['ip4Addr'] = [ip['ip.src'], ip['ip.dst']]
 	proto = int(ip['ip.proto'])
-	if  (proto ==   6): dissectTCP()
-	elif(proto ==  17): dissectUDP()
-#	elif(proto == 132): dissectSCTP()
-#	elif(proto == 136): dissectUDPLite()
-
+	if(proto == 17): dissectUDP()
 
 def dissectLLC():
 	ndjson['ethType'] = 'LLC'
@@ -102,6 +115,9 @@ def processPackets(packets):
 #		ndjson['frameProtocols'] = frame['frame.protocols']
 		ndjson['frameProtocols'] = frame['frame.protocols'].split(':')
 		if int(frame['frame.encap_type']) == 1: dissectEthernet()
+
+#		Look for DNS
+		if 'dns' in ndjson['frameProtocols']: dissectDNS()
 
 		if(os.getenv("JSONARRAY")):
 			if(first_line == 0): print('', end=',')

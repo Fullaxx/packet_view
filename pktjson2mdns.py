@@ -14,20 +14,6 @@ def dissectUDP():
 	ndjson['udpPort'] = [udp['udp.srcport'], udp['udp.dstport']]
 	ndjson['udpLenBytes'] = udp['udp.length']
 
-# Extract and Create TCP NDJson Object
-def dissectTCP():
-	tcp=layers['tcp']
-	tcpflagstree=tcp['tcp.flags_tree']
-	ndjson['tcpSrcPort'] = tcp['tcp.srcport']
-	ndjson['tcpDstPort'] = tcp['tcp.dstport']
-	ndjson['tcpPort'] = [tcp['tcp.srcport'], tcp['tcp.dstport']]
-	ndjson['tcpLenBytes'] = tcp['tcp.len']
-	ndjson['tcpFlagsACKBit'] = tcpflagstree['tcp.flags.ack']
-	ndjson['tcpFlagsPSHBit'] = tcpflagstree['tcp.flags.push']
-	ndjson['tcpFlagsRSTBit'] = tcpflagstree['tcp.flags.reset']
-	ndjson['tcpFlagsSYNBit'] = tcpflagstree['tcp.flags.syn']
-	ndjson['tcpFlagsFINBit'] = tcpflagstree['tcp.flags.fin']
-
 # Extract and Create IPv6 NDJson Object
 def dissectIPv6():
 	ip=layers['ipv6']
@@ -37,10 +23,7 @@ def dissectIPv6():
 	ndjson['ip6Dst'] = ip['ipv6.dst']
 	ndjson['ip6Addr'] = [ip['ipv6.src'], ip['ipv6.dst']]
 	proto = int(ip['ipv6.nxt'])
-	if  (proto ==   6): dissectTCP()
-	elif(proto ==  17): dissectUDP()
-#	elif(proto == 132): dissectSCTP()
-#	elif(proto == 136): dissectUDPLite()
+	if(proto == 17): dissectUDP()
 
 # Extract and Create IPv4 NDJson Object
 def dissectIPv4():
@@ -51,11 +34,7 @@ def dissectIPv4():
 	ndjson['ip4Dst'] = ip['ip.dst']
 	ndjson['ip4Addr'] = [ip['ip.src'], ip['ip.dst']]
 	proto = int(ip['ip.proto'])
-	if  (proto ==   6): dissectTCP()
-	elif(proto ==  17): dissectUDP()
-#	elif(proto == 132): dissectSCTP()
-#	elif(proto == 136): dissectUDPLite()
-
+	if(proto == 17): dissectUDP()
 
 def dissectLLC():
 	ndjson['ethType'] = 'LLC'
