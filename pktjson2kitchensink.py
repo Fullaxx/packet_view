@@ -200,13 +200,12 @@ def processPackets(packets):
 		if int(frame['frame.encap_type']) == 1: dissectEthernet()
 
 #		Handle Protocols above Transport Layer
-		plist = frame['frame.protocols'].split(':')
-		if 'ftp' in plist: dissectFTP()
-		if 'ssh' in plist: dissectSSH()
-		if 'http' in plist: dissectHTTP()
-		if 'dns' in plist: dissectDNS()
-		if 'ssdp' in plist: dissectSSDP()
-		if 'mdns' in plist: dissectMDNS()
+		if 'ftp' in ndjson['frameProtocols']: dissectFTP()
+		if 'ssh' in ndjson['frameProtocols']: dissectSSH()
+		if 'http' in ndjson['frameProtocols']: dissectHTTP()
+		if 'dns' in ndjson['frameProtocols']: dissectDNS()
+		if 'ssdp' in ndjson['frameProtocols']: dissectSSDP()
+		if 'mdns' in ndjson['frameProtocols']: dissectMDNS()
 
 		if(os.getenv("JSONARRAY")):
 			if(first_line == 0): print('', end=',')

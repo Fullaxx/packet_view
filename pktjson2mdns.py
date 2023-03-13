@@ -103,6 +103,9 @@ def processPackets(packets):
 		ndjson['frameProtocols'] = frame['frame.protocols'].split(':')
 		if int(frame['frame.encap_type']) == 1: dissectEthernet()
 
+#		Look for MDNS
+		if 'mdns' in ndjson['frameProtocols']: dissectMDNS()
+
 		if(os.getenv("JSONARRAY")):
 			if(first_line == 0): print('', end=',')
 			print(json.dumps(ndjson))
