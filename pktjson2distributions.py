@@ -56,6 +56,10 @@ def dissectIPv4():
 #	elif(proto == 132): dissectSCTP()
 #	elif(proto == 136): dissectUDPLite()
 
+
+def dissectLLC():
+	ndjson['ethType'] = 'LLC'
+
 # Extract and Create Ethernet NDJson Object
 def dissectEthernet():
 	eth=layers['eth']
@@ -68,7 +72,7 @@ def dissectEthernet():
 	with suppress(KeyError): ndjson['ethSrcOUI'] = src_tree['eth.addr.oui_resolved']
 	ethLen = eth.get('eth.len')
 	ethType = eth.get('eth.type')
-	if(ethLen): ndjson['ethType'] = 'LLC'
+	if(ethLen): dissectLLC()
 	elif(ethType):
 		ethTypeValue = int(ethType, 16)
 #		WTF why is ethType a long in v3.4.16?? I should not have to do this

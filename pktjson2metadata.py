@@ -41,7 +41,7 @@ def dissectARP():
 	pass
 
 def dissectLLC():
-	pass
+	ndjson['ethType'] = 'LLC'
 
 # Extract and Create Ethernet NDJson Object
 def dissectEthernet():
@@ -62,7 +62,7 @@ def dissectEthernet():
 		ndjson['ethType'] = '0x'+'{:04x}'.format(ethTypeValue)
 		if ethTypeValue == 0x0800: dissectIPv4()
 		if ethTypeValue == 0x0806: dissectARP()
-		if ethTypeValue == 0x0866: dissectIPv6()
+		if ethTypeValue == 0x86dd: dissectIPv6()
 
 def processPackets(packets):
 	global ndjson
@@ -83,7 +83,8 @@ def processPackets(packets):
 		ndjson['packetID'] = packetID
 		ndjson['captureTime'] = frame['frame.time_epoch']
 		ndjson['frameCapLen'] = frame['frame.cap_len']
-		ndjson['frameProtocols'] = frame['frame.protocols']
+#		ndjson['frameProtocols'] = frame['frame.protocols']
+		ndjson['frameProtocols'] = frame['frame.protocols'].split(':')
 		if int(frame['frame.encap_type']) == 1: dissectEthernet()
 
 		if(os.getenv("JSONARRAY")):
