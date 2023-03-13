@@ -1,0 +1,26 @@
+{
+	"order": 0,
+	"index_patterns": [
+		"kitchensink-*"
+	],
+	"settings": {
+		"index": {
+			"lifecycle": {
+				"name": "kitchensink-lifecycle-policy",
+				"rollover_alias": "kitchensink"
+			}
+		}
+	},
+	"mappings": {
+		"dynamic_templates": [],
+		"properties": {
+			"@timestamp": {
+				"type": "date"
+			},
+			"captureTime": {
+				"type": "date",
+				"format": "epoch_second"
+			}
+		}
+	}
+}

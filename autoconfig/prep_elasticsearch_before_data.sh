@@ -7,7 +7,7 @@
 # We have to create our initial indices and start building mappings and kibana index patterns
 # before we start generating data and uploading it through the bulk api
 
-INDICES="metadata"
+INDICES="metadata kitchensink distributions dns mdns"
 ELASTICSERVER="localhost"
 PASSWORDFILE="/data/passwords"
 JSONDIR="/elasticsearch/autoconfig/"
@@ -160,7 +160,7 @@ echo
 # We change kibana.yml here so that Kibana no longer asks for a user
 # or password, an instead logs in with the anonymous user created above
 # with the default password of anonymous.  This user has a very specific
-# role defined which provides READ-ONLY access to Pakcet indexes: metadata
+# role defined which provides READ-ONLY access to Pakcet indices
 # NOTE: If you need to get the login page back, like to enter your admin username/password to alter Kibana configs,
 # uncomment the lines in kibana.yml below that we are commenting out and then restart the container or kibana processes.
 if ! [ -e "/.firstrun" ]; then

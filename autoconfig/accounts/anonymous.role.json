@@ -4,7 +4,7 @@
 		"indices": [
 			{
 				"names": [
-					"metadata"
+					"metadata", "kitchensink", "distributions", "dns", "mdns"
 				],
 				"privileges": [
 					"read"
