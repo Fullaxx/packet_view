@@ -69,7 +69,7 @@ def dissectTCP():
 	ndjson['tcpDstPort'] = tcp['tcp.dstport']
 	ndjson['tcpPort'] = [tcp['tcp.srcport'], tcp['tcp.dstport']]
 	ndjson['tcpStream'] = tcp['tcp.stream']
-	ndjson['tcpCompleteness'] = tcp['tcp.completeness']
+	with suppress(KeyError): ndjson['tcpCompleteness'] = tcp['tcp.completeness']
 	ndjson['tcpLenBytes'] = tcp['tcp.len']
 	ndjson['tcpSeq'] = tcp['tcp.seq']
 	ndjson['tcpSeqRaw'] = tcp['tcp.seq_raw']
@@ -100,8 +100,8 @@ def dissectICMP():
 	ndjson['icmpCode'] = icmp['icmp.code']
 	ndjson['icmpChecksum'] = icmp['icmp.checksum']
 	ndjson['icmpChecksumStatus'] = icmp['icmp.checksum.status']
-	ndjson['icmpIdent'] = icmp['icmp.ident']
-	ndjson['icmpSeq'] = icmp['icmp.seq']
+	with suppress(KeyError): ndjson['icmpIdent'] = icmp['icmp.ident']
+	with suppress(KeyError): ndjson['icmpSeq'] = icmp['icmp.seq']
 	with suppress(KeyError): ndjson['icmpDataTime'] = icmp['icmp.data_time']
 
 # Extract and Create IPv6 NDJson Object
