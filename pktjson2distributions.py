@@ -6,6 +6,12 @@ import json
 import xxhash
 from contextlib import suppress
 
+def dissectUDPLite():
+	pass
+
+def dissectSCTP():
+	pass
+
 # Extract and Create UDP NDJson Object
 def dissectUDP():
 	udp=layers['udp']
@@ -39,8 +45,8 @@ def dissectIPv6():
 	proto = int(ip['ipv6.nxt'])
 	if  (proto ==   6): dissectTCP()
 	elif(proto ==  17): dissectUDP()
-#	elif(proto == 132): dissectSCTP()
-#	elif(proto == 136): dissectUDPLite()
+	elif(proto == 132): dissectSCTP()
+	elif(proto == 136): dissectUDPLite()
 
 # Extract and Create IPv4 NDJson Object
 def dissectIPv4():
@@ -53,9 +59,8 @@ def dissectIPv4():
 	proto = int(ip['ip.proto'])
 	if  (proto ==   6): dissectTCP()
 	elif(proto ==  17): dissectUDP()
-#	elif(proto == 132): dissectSCTP()
-#	elif(proto == 136): dissectUDPLite()
-
+	elif(proto == 132): dissectSCTP()
+	elif(proto == 136): dissectUDPLite()
 
 def dissectLLC():
 	ndjson['ethType'] = 'LLC'
