@@ -1,0 +1,26 @@
+{
+	"order": 0,
+	"index_patterns": [
+		"dns-*"
+	],
+	"settings": {
+		"index": {
+			"lifecycle": {
+				"name": "dns-lifecycle-policy",
+				"rollover_alias": "dns"
+			}
+		}
+	},
+	"mappings": {
+		"dynamic_templates": [],
+		"properties": {
+			"@timestamp": {
+				"type": "date"
+			},
+			"captureTime": {
+				"type": "date",
+				"format": "epoch_second"
+			}
+		}
+	}
+}

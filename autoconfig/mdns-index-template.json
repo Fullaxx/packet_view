@@ -1,0 +1,26 @@
+{
+	"order": 0,
+	"index_patterns": [
+		"mdns-*"
+	],
+	"settings": {
+		"index": {
+			"lifecycle": {
+				"name": "mdns-lifecycle-policy",
+				"rollover_alias": "mdns"
+			}
+		}
+	},
+	"mappings": {
+		"dynamic_templates": [],
+		"properties": {
+			"@timestamp": {
+				"type": "date"
+			},
+			"captureTime": {
+				"type": "date",
+				"format": "epoch_second"
+			}
+		}
+	}
+}

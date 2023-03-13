@@ -1,0 +1,26 @@
+{
+	"order": 0,
+	"index_patterns": [
+		"distributions-*"
+	],
+	"settings": {
+		"index": {
+			"lifecycle": {
+				"name": "distributions-lifecycle-policy",
+				"rollover_alias": "distributions"
+			}
+		}
+	},
+	"mappings": {
+		"dynamic_templates": [],
+		"properties": {
+			"@timestamp": {
+				"type": "date"
+			},
+			"captureTime": {
+				"type": "date",
+				"format": "epoch_second"
+			}
+		}
+	}
+}

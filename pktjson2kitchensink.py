@@ -213,7 +213,7 @@ def processPackets(packets):
 			print(json.dumps(ndjson))
 			first_line = 0
 		else:
-			print('{"index":{"_index":"metadata","_type":"_doc"}}')
+			print('{"index":{"_index":"kitchensink","_type":"_doc"}}')
 			print(json.dumps(ndjson))
 
 if __name__ == "__main__":

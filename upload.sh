@@ -4,7 +4,7 @@
 upload()
 {
 	NDJSONFILE=`mktemp`
-	tshark -r ${PCAPFILE} -T json | ./$1 >${NDJSONFILE}
+	tshark -r ${PCAPFILE} -T json "$2" | ./$1 >${NDJSONFILE}
 	curl -s -k -u elastic:${PASS} -XPOST http://${HOST}:9200/_bulk?pretty\&refresh=true -H "Content-Type: application/x-ndjson" --data-binary @${NDJSONFILE} 2>&1
 	rm ${NDJSONFILE}
 }
@@ -28,7 +28,10 @@ if [ ! -r ${PCAPFILE} ]; then
   exit 3
 fi
 
-# upload pktjson2metadata.py &
+upload pktjson2metadata.py &
+upload pktjson2kitchensink.py &
 upload pktjson2distributions.py &
+upload pktjson2dns.py "-Y dns" &
+upload pktjson2mdns.py "-Y mdns" &
 
 wait

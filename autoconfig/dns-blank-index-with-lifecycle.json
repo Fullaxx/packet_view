@@ -1,0 +1,7 @@
+{
+	"aliases": {
+		"dns": {
+			"is_write_index": true
+		}
+	}
+}
