@@ -1,7 +1,7 @@
 #!/bin/bash
 # Upload ndjson file
 
-upload_metadata()
+upload()
 {
 	NDJSONFILE=`mktemp`
 	tshark -r ${PCAPFILE} -T json | ./$1 >${NDJSONFILE}
@@ -28,4 +28,7 @@ if [ ! -r ${PCAPFILE} ]; then
   exit 3
 fi
 
-upload_metadata pktjson2metadata.py
+# upload pktjson2metadata.py &
+upload pktjson2distributions.py &
+
+wait
